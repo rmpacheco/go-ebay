@@ -6,6 +6,7 @@ import (
 	"net/url"
 	"strconv"
 	"time"
+	"fmt"
 
 	"github.com/heatxsink/go-httprequest"
 )
@@ -85,9 +86,9 @@ func (e *EBay) buildSoldURL(globalID string, keywords string, entriesPerPage int
 	filters.Add("itemFilter(0).name", "Condition")
 	filters.Add("itemFilter(0).value(0)", "Used")
 	filters.Add("itemFilter(0).value(1)", "Unspecified")
-	filters.Add("itemFilter(1).name", "SoldItemsOnly")
-	filters.Add("itemFilter(1).value(0)", "true")
-	return e.buildURL(globalID, keywords, "findCompletedItems", entriesPerPage, filters)
+	filters.Add("itemFilter(1).name", "SellingState")
+	filters.Add("itemFilter(1).value(0)", "EndedWithSales")
+	return e.buildURL(globalID, keywords, "findItemsAdvanced", entriesPerPage, filters)
 }
 
 func (e *EBay) buildSearchURL(globalID string, keywords string, entriesPerPage int, binOnly bool) (string, error) {
@@ -183,6 +184,7 @@ func (e *EBay) FindItemsByKeywords(globalID string, keywords string, entriesPerP
 func (e *EBay) FindSoldItems(globalID string, keywords string, entriesPerPage int) (FindCompletedItemsResponse, error) {
 	var response FindCompletedItemsResponse
 	url, err := e.buildSoldURL(globalID, keywords, entriesPerPage)
+	fmt.Println(url)
 	if err != nil {
 		return response, err
 	}
