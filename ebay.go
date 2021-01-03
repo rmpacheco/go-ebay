@@ -86,8 +86,6 @@ func (e *EBay) buildSoldURL(globalID string, keywords string, entriesPerPage int
 	filters.Add("itemFilter(0).name", "Condition")
 	filters.Add("itemFilter(0).value(0)", "Used")
 	filters.Add("itemFilter(0).value(1)", "Unspecified")
-	filters.Add("itemFilter(1).name", "SellingState")
-	filters.Add("itemFilter(1).value(0)", "EndedWithSales")
 	return e.buildURL(globalID, keywords, "findItemsAdvanced", entriesPerPage, filters)
 }
 
